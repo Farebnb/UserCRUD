@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest(classes = UsercrudApplication.class)
 @AutoConfigureMockMvc
@@ -27,6 +27,16 @@ public class UserServiceTests {
 
     @Autowired
     UserService us;
+
+    @Test
+    public void registerTest() {
+        us = new UserService(ur);
+        User testUser = new User(1010, "Mohamed", "Abdulla", "mabdulla", "mohamed@gmail.com", "password", 0);
+        us.register("Mohamed", "Abdulla", "mabdulla", "mohamed@gmail.com", "password");
+        when((ur).findById(anyInt())).thenReturn(testUser);
+        User result = us.getById(1010);
+        assertEquals("mabdulla", result.getUsername(), "pass test");
+    }
 
     @Test
     public void getByUsernameTest() {
@@ -68,6 +78,24 @@ public class UserServiceTests {
         List<User> result = us.getAll();
         assertEquals(testUser.getId(), result.get(0).getId(), "pass test");
 
+    }
+
+    @Test
+    public void updateTest() {
+        us = new UserService(ur);
+        User testUser = new User(1, "John", "Smith", "jsmith", "john.smith@gmail.com", "password", 3);
+        User updatedUser = new User(1, "Joe", "Smith", "jsmith", "john.smith@gmail.com", "password", 3);
+        when((ur).saveAndFlush(any())).thenReturn(testUser);
+        updatedUser = us.update(testUser);
+        assertEquals("John", updatedUser.getFirstname(), "pass test");
+    }
+
+    @Test
+    public void deleteTest() {
+        us = new UserService(ur);
+        doNothing().when(ur).deleteById(anyInt());
+        us.delete(0);
+        verify(ur).deleteById(anyInt());
     }
 
 }

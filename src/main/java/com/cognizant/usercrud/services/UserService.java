@@ -19,6 +19,13 @@ public class UserService {
         this.ur = ur;
     }
 
+    //CREATE
+    public User register(String firstname, String lastname, String username, String email, String password){
+        User registerUser = new User(0, firstname, lastname, username, email, password, 0);
+        return ur.save(registerUser);
+    }
+
+    //READ
     public User getByUsername(String username){
         return ur.findByUsername(username);
     }
@@ -33,6 +40,16 @@ public class UserService {
 
     public List<User> getAll() {
         return ur.findAll();
+    }
+
+    //UPDATE
+    public User update(User u) {
+        return ur.saveAndFlush(u);
+    }
+
+    //DELETE
+    public void delete(int id) {
+        ur.deleteById(id);
     }
 
 }
