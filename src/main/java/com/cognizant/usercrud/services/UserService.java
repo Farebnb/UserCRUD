@@ -52,4 +52,7 @@ public class UserService {
         ur.deleteById(id);
     }
 
+    public User login(String username, String password) {
+       return ur.findByUsername(username);
+    }
 }

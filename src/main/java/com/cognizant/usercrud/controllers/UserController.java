@@ -68,4 +68,9 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<User> login(@RequestBody LinkedHashMap<String, String> body){
+        return new ResponseEntity<>(us.login(body.get("username"), body.get("password")), HttpStatus.ACCEPTED);
+    }
+
 }
