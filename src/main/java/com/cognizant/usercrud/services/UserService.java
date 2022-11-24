@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,7 +22,8 @@ public class UserService {
 
     //CREATE
     public User register(String firstname, String lastname, String username, String email, String password){
-        User registerUser = new User(0, firstname, lastname, username, email, password, 0);
+        List newlist = new ArrayList();
+        User registerUser = new User(0, firstname, lastname, username, email, password,0, newlist);
         return ur.save(registerUser);
     }
 
@@ -53,6 +55,9 @@ public class UserService {
     }
 
     public User login(String username, String password) {
-       return ur.findByUsername(username);
+       User u = ur.findByUsername(username);
+       if(u.getPassword() == password){
+           return u;
+       } else return null;
     }
 }

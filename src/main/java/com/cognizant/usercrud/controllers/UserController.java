@@ -70,7 +70,12 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<User> login(@RequestBody LinkedHashMap<String, String> body){
-        return new ResponseEntity<>(us.login(body.get("username"), body.get("password")), HttpStatus.ACCEPTED);
+       User u = us.login(body.get("username"), body.get("password"));
+        if (u != null) {
+            return new ResponseEntity<>(u,HttpStatus.ACCEPTED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        }
     }
 
 }

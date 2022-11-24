@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -28,4 +29,8 @@ public class User {
 
     @Column(name = "LISTINGID")
     private int listingId;
+
+    private List<Integer> favourite;
+
+
 }
